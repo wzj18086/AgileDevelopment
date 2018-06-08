@@ -105,7 +105,7 @@ def draw_log_lat(df, attr, filename):
 
 def draw_country_map(df, filename="CountryMap"):
     # 映射表
-    with open('countryTwoLettersToThree.pickle', 'rb') as f:
+    with open('CountryTwoLettersToThree.pickle', 'rb') as f:
         changeCountryCode = pickle.load(f)
     # 国家数量
     country_count = dict(df['Country'].value_counts())
@@ -197,7 +197,3 @@ def draw_timezone_map(df, filename="timezone_shadow"):
     fig = dict(data=data, layout=layout)
     offline.plot(fig, validate=False, filename=str(filename) + '.html')
 
-
-if __name__ == '__main__':
-    df = pd.read_csv("directory.csv")
-    draw_timezone_map(df, "draw")

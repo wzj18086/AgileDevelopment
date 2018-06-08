@@ -89,6 +89,3 @@ def MapTwo():
     fig = dict(data=data, layout=layout)
     py.offline.plot(fig, validate=False, filename='map2.html')
 
-
-if __name__ == '__main__':
-    MapTwo()

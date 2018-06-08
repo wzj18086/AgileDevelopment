@@ -1,24 +1,18 @@
-import plotly.plotly as py
-import plotly
-import pandas as pd
-from pandas import Series,DataFrame
-from plotly.graph_objs import *
-from tkinter import *
-from text1 import *
-from plotlyMap2 import *
-from plotlyMap3 import *
-from plotlyMap2_1 import *
-from Requirement2 import *
 import plotly.graph_objs
 import plotly.offline
-from tkinter import messagebox
 import matplotlib.pyplot as plt
-from requirment1 import *
-from mate import *
-from Map4_2 import *
-from Run import *
-import threading
-from c import *
+
+from CountryShopAmount import *
+from TimeZoneDistribution import *
+from DistrictAmount import *
+from CountStatistics import *
+from TopKSearch import *
+from tkinter import messagebox
+from ColorChange import *
+from KeyWordSort import *
+from RadiusSearch import *
+from RadiusTimeChange import *
+from ProgressBarShow import *
 
 def readFile():
     df = pd.read_csv("directory.csv")
@@ -30,7 +24,6 @@ def readFile():
     postcode=df['Postcode'].fillna('unknown')
     PhoneNumber=df['Phone Number'].fillna('unknown')
     return lat,lon,StoreNumber,StoreName,address,postcode,PhoneNumber
-
 
 #top_k
 def SolveData():
@@ -53,7 +46,6 @@ def SetMap2(lat_result,lon_result):
     lats = (int)(enter_latidtude.get())
     lons = (int)(enter_longitude.get())
     lat, lon, datas = SolveData()
-    print(datas)
     data = Data([
         Scattermapbox(
             lat=lat_result,
@@ -123,7 +115,6 @@ def showkMap():
     if ks>=2000:
         ProgressBarShow()
     lon_result, lat_result, final_result, time=requirement_sec(lats,lons,ks)
-    #plotly.tools.set_credentials_file('wzj18086', 'FFnoowbWTQmSfuvQQ8r9')
     data, layout = SetMap2(lat_result,lon_result)
     fig = dict(data=data, layout=layout)
     plotly.offline.plot(fig, filename='result.html')

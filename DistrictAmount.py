@@ -10,7 +10,7 @@ import pandas as pd
 
 def Map3():
     # 把两位国家代码转换成三位代码
-    with open("countryTwoLettersToThree.pickle", "rb") as file:
+    with open("CountryTwoLettersToThree.pickle", "rb") as file:
         threeCountryCode = pickle.load(file)
     myFile = pd.read_csv('F:\pythonFiles\directory.csv')
     # 计算相同国家的次数

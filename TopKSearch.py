@@ -89,11 +89,6 @@ def requirement_sec(latitude,longitude,k):
         data = 'StoreNumber:' + x[2] + '</br>' + 'StoreName:' + x[3] + '</br>' + 'Postcode:' + x[4] + '</br>' + 'PhoneNumber:' + x[5] + '</br>' + 'Address:' + x[6]
         datas.append(data)
 
-
     end=time.clock()
-    #lambda x :(x[0]-test_x)*(x[0]-test_x)+(x[1]-test_y)*(x[1]-test_y)
-    #filter(lambda x: x[1]>=test_y-y1 and x[1]<=test_y+y1 and x[0]>=test_x-x1 and x[0]<=test_x+x1
-    print("final_result",final_result)
-    print("运行时间：",end-start)
     return lon_result,lat_result,final_result,end-start
 
