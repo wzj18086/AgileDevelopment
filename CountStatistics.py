@@ -41,6 +41,3 @@ def Map2_1():
     table = FF.create_table(file)
     py.offline.plot(table, filename='map2-1.html')
 
-
-if __name__ == '__main__':
-    Map2_1()

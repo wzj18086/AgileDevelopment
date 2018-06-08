@@ -52,6 +52,3 @@ def Map3():
     fig = dict(data=data, layout=layout)
     py.offline.plot(fig, validate=False, filename='map3.html')
 
-
-if __name__ == '__main__':
-    Map3()

@@ -13,6 +13,8 @@ from KeyWordSort import *
 from RadiusSearch import *
 from RadiusTimeChange import *
 from ProgressBarShow import *
+from SetMapData import *
+
 
 def readFile():
     df = pd.read_csv("directory.csv")
@@ -42,70 +44,19 @@ def SolveData():
     return lat,lon,datas
 
 def SetMap2(lat_result,lon_result):
-    mapbox_access_token = 'pk.eyJ1Ijoid3pqMTgwODYiLCJhIjoiY2pmMHM2dmRoMDFsZjJ4dDdiaHZwMmpqayJ9.yBaHqF4D6JKBVe_kvTWAhw'
     lats = (int)(enter_latidtude.get())
     lons = (int)(enter_longitude.get())
     lat, lon, datas = SolveData()
-    data = Data([
-        Scattermapbox(
-            lat=lat_result,
-            lon=lon_result,
-            mode='markers',
-            marker=Marker(
-                size=9
-            ),
-            text=datas,
-        )
-    ])
-    layout = Layout(
-        autosize=True,
-        hovermode='closest',
-        mapbox=dict(
-            accesstoken=mapbox_access_token,
-            bearing=0,
-            center=dict(
-                lat=lats,
-                lon=lons
-            ),
-            pitch=0,
-            zoom=1
-        ),
-    )
+    data,layout=setMapData(lat_result,lon_result,lats,lons,datas)
     return data, layout
 
 #key_word top-k
 def SetMap():
-    mapbox_access_token = 'pk.eyJ1Ijoid3pqMTgwODYiLCJhIjoiY2pmMHM2dmRoMDFsZjJ4dDdiaHZwMmpqayJ9.yBaHqF4D6JKBVe_kvTWAhw'
     lats, lons, lat, lon, datas=keyWordSelect()
-
-    data = Data([
-        Scattermapbox(
-            lat=lat,
-            lon=lon,
-            mode='markers',
-            marker=Marker(
-                size=9
-            ),
-            text=datas,
-        )
-    ])
-    layout = Layout(
-        autosize=True,
-        hovermode='closest',
-        mapbox=dict(
-            accesstoken=mapbox_access_token,
-            bearing=0,
-            center=dict(
-                lat=lats,
-                lon=lons
-            ),
-            pitch=0,
-            zoom=1
-        ),
-    )
+    data, layout = setMapData(lat, lon, lats, lons, datas)
     return data,layout
 
-def showkMap():
+def showKMap():
     lats=(int)(enter_latidtude.get())
     lons=(int)(enter_longitude.get())
     ks=(int)(k_value.get())
@@ -119,7 +70,7 @@ def showkMap():
     fig = dict(data=data, layout=layout)
     plotly.offline.plot(fig, filename='result.html')
 
-def k_change():
+def kChange():
     lats = (int)(enter_latidtude.get())
     lons = (int)(enter_longitude.get())
     times=[]
@@ -137,7 +88,7 @@ def k_change():
     plt.legend()
     plt.show()
 
-def color_change():
+def colorChange():
     df = pd.read_csv("directory.csv")
     draw_timezone_map(df, "draw")
 
@@ -164,13 +115,13 @@ def showKeyWordMap():
     fig = dict(data=data, layout=layout)
     plotly.offline.plot(fig, filename='result1.html')
 
-def RadiusSearch():
+def radiusSearch():
     lats = (float)(enter_latidtude.get())
     lons = (float)(enter_longitude.get())
     radius=(float)(radius_value.get())
     RadiusSearch_1(lats,lons,radius)
 
-def RadiusTimeChange():
+def radiusTimeChange():
     lats = (float)(enter_latidtude.get())
     lons = (float)(enter_longitude.get())
     RadiusTimeChange_1(lats,lons)
@@ -180,7 +131,7 @@ if __name__=='__main__':
     top=Tk()
     top.geometry('300x550')
     top.title("星巴克店铺分布及统计")
-    button=Button(top,text="店铺分布情况",command=showkMap)
+    button=Button(top,text="店铺分布情况",command=showKMap)
     button.place(x=50,y=50)
     button1=Button(top,text="时区店铺分布",command=MapTwo)
     button1.place(x=150,y=50)
@@ -218,22 +169,22 @@ if __name__=='__main__':
     key_word_enter=Entry(top)
     key_word_enter.place(x=100,y=270)
 
-    button3 = Button(top, text="最近k值", command=showkMap)
+    button3 = Button(top, text="最近k值", command=showKMap)
     button3.place(x=100, y=300)
 
-    button4=Button(top,text="k的变化",command=k_change)
+    button4=Button(top,text="k的变化",command=kChange)
     button4.place(x=100,y=340)
 
-    button6=Button(top,text="店铺时区渐变",command=color_change)
+    button6=Button(top,text="店铺时区渐变",command=colorChange)
     button6.place(x=100,y=380)
 
     button7=Button(top,text="top-k查询",command=showKeyWordMap)
     button7.place(x=100,y=430)
 
-    button8=Button(top,text="半径搜索",command=RadiusSearch)
+    button8=Button(top,text="半径搜索",command=radiusSearch)
     button8.place(x=100,y=480)
 
-    button9=Button(top,text="半径时延变化",command=RadiusTimeChange)
+    button9=Button(top,text="半径时延变化",command=radiusTimeChange)
     button9.place(x=200,y=480)
     top.mainloop()
 

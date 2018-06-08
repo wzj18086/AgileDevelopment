@@ -2,6 +2,7 @@ import pandas as pd
 from math import *
 from plotly.graph_objs import *
 import plotly.plotly as py
+from SetMapData import *
 import time
 
 
@@ -70,35 +71,7 @@ def RadiusSearch_1(la,lo,r):
 
     print(repr(final_list))
     print("运行时间：", end - start)
-
-    data = Data([
-        Scattermapbox(
-            lat=lat_result,
-            lon=lon_result,
-            mode='markers',
-            marker=Marker(
-                size=9,
-                color='rgb(0,0,255)',
-                opacity=0.7#
-            ),
-            text=myTexts
-        )
-    ])
-    layout = Layout(
-        autosize=True,
-        hovermode='closest',
-        mapbox=dict(
-            accesstoken='pk.eyJ1IjoiZWxldmVuZXIiLCJhIjoiY2pmb3VkcDJzMXBybDMzczJmeWN2bGNrZyJ9.-zXlvQCWfxjeyEnPJmPAAA',
-            style = 'outdoors',
-            bearing=0,
-            center=dict(
-                lat=la,
-                lon=lo
-            ),
-            pitch=0,
-            zoom=1
-        ),
-    )
+    data,layout=setMapData(lat_result,lon_result,la,lo,myTexts)
 
     fig = dict(data=data, layout=layout)
     py.plot(fig, filename='Multiple Mapbox')
