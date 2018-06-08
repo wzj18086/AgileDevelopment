@@ -5,7 +5,7 @@ from plotly import *
 import plotly.graph_objs as go
 import plotly.offline as off
 from pandas import Series,DataFrame
-def requirement_sec(latitude,longitude,k):
+def topKSearch(latitude,longitude,k):
     file=pd.read_csv("directory.csv")
     lon=file["Longitude"]#经度
     lat=file["Latitude"]#纬度

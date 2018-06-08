@@ -9,9 +9,11 @@ import os
 mapbox_access_token = "pk.eyJ1IjoibW9oYWlsYW5nIiwiYSI6ImNqZm93cGs5bDF3OXMyeG1zdGhuejBoNTIifQ.fouiU5hKtls0ohPA7LHJEA"
 
 # 生成随机颜色
+def colorChange():
+    df = pd.read_csv("directory.csv")
+    draw_timezone_map(df, "draw")
 
-
-def random_color():
+def randomColor():
     r = random.randint(0, 256)
     g = random.randint(0, 256)
     b = random.randint(0, 256)
@@ -21,7 +23,7 @@ def random_color():
 
 
 # 按照时区或国家分组绘制世界地图
-def draw_groupby(df, attr, filename):
+def drawGroupBy(df, attr, filename):
     # 缺失值处理
     df = df.fillna('Null')
     df['text'] = "Store Number: " + df['Store Number'] + '</br></br>' + "Store Name: " + df['Store Name'] + '</br>' + \
@@ -37,7 +39,7 @@ def draw_groupby(df, attr, filename):
             lon=group['Longitude'],   # 经度
             lat=group['Latitude'],    # 纬度
             mode='markers',
-            marker=Marker(size=9, color=random_color()),
+            marker=Marker(size=9, color=randomColor()),
             name=attr,    # 菜单栏内容
             text=group['text'],  # 提示信息
             hoverinfo="text",

@@ -51,8 +51,7 @@ def pie_charts(name):
   off.plot(fig, filename=name)
 def showChart():
 
-  data = pd.read_csv('F:\pythonFiles\directory.csv', encoding='utf-8')
-  grouped = data.groupby('Country').size()  # series 类型，国家星巴克数量
+  data = pd.read_csv('directory.csv', encoding='utf-8')
 
     # 创建关于国家名字数组
   grouped1 = data.groupby('Country')
@@ -61,4 +60,4 @@ def showChart():
       country.append(name)
 
   #pie_charts('busy')
-  bar_charts('busy1')
+  bar_charts('countryShopAmount')

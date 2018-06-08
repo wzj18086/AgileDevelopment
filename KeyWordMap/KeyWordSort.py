@@ -5,12 +5,16 @@ import difflib
 from math import *
 from pandas import *
 
+from Configuration.ReadCsv import ReadCsv
+
+
 def keywordSort(lat,lon,k,key):
     def new_sort(x):
         return (-x[-2],haversine2(x))
 
     def readFile():
-        df = pd.read_csv('directory.csv',encoding='utf-8')
+        file = ReadCsv("directory.csv")
+        df = file.readCsv()
         lat = df['Latitude']
         lon = df['Longitude']
         StoreNumber=df['Store Number'].fillna('unknown')

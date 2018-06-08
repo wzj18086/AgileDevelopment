@@ -14,7 +14,7 @@ import csv
 
 def Map2_1():
     # 读取数据文件
-    myFile = pd.read_csv('F:\pythonFiles\directory.csv')
+    myFile = pd.read_csv('directory.csv')
     # 清洗数据-处理缺省值
     myFile = myFile.fillna("None")
     timeZone = myFile["Timezone"]
