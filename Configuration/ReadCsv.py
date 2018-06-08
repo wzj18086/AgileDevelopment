@@ -8,7 +8,8 @@ class ReadCsv(Singleton):
         self.path = path
 
     def readCsv(self):
-        df = pd.read_csv(self.path)
+        df_temp = pd.read_csv(self.path)
+        return df_temp
 
     def getCsvData(self):
         df=ReadCsv.readCsv(self)

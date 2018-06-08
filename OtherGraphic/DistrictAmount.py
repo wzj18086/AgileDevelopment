@@ -8,11 +8,14 @@ import plotly as py
 import pandas as pd
 
 
+
+
 def Map3():
     # 把两位国家代码转换成三位代码
     with open("CountryTwoLettersToThree.pickle", "rb") as file:
         threeCountryCode = pickle.load(file)
-    myFile = pd.read_csv('F:\pythonFiles\directory.csv')
+    from Configuration.ReadCsv import ReadCsv
+    myFile = ReadCsv('directory.csv').readCsv()
     # 计算相同国家的次数
     country_count = dict(myFile["Country"].value_counts())
     # 存放每个国家的星巴克数量

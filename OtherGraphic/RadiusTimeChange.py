@@ -4,6 +4,9 @@ import plotly.plotly as py
 import plotly.graph_objs as go
 import pandas as pd
 
+from Configuration.ReadCsv import ReadCsv
+
+
 def RadiusTimeChange(la,lo):
 # 按照距离筛选数据
     def shaixuan(la, lo, r, result_list):
@@ -34,17 +37,10 @@ def RadiusTimeChange(la,lo):
 
 
     #读取表格数据
-    file=pd.read_csv(r"directory.csv")
-    #处理缺省值
-    file = file.fillna("0")
 
-    lat=file["Latitude"]#纬度
-    lon=file["Longitude"]#经度
-    StoreNumber=file['Store Number'].fillna('unknown')
-    StoreName=file['Store Name'].fillna('unknown')
-    address=file['Street Address'].fillna('unknown')
-    postcode=file['Postcode'].fillna('unknown')
-    PhoneNumber=file['Phone Number'].fillna('unknown')
+
+    file = ReadCsv("directory.csv")
+    lat, lon, StoreNumber, StoreName, address, postcode, PhoneNumber = file.getCsvData()
 
     result_list=[[a,b,c,d,e,f,g] for a,b,c,d,e,f,g in zip(lat,lon,StoreNumber,StoreName,address,postcode,PhoneNumber)]
 

@@ -6,11 +6,9 @@ import plotly.offline
 from Configuration import ReadCsv
 from Configuration.SetMapData import setMapData
 from GUI import Initialize
-from GUI.Initialize import *
 
 from OtherGraphic.ProgressBarShow import ProgressBarShow
 from KMap.TopKSearch import *
-from GUI import *
 
 
 def solveKMapData():

@@ -3,9 +3,12 @@ import pandas as pd
 import plotly.graph_objs as go
 import plotly.offline as off
 
+from Configuration.ReadCsv import ReadCsv
+
 
 def init():
-  data = pd.read_csv('F:\pythonFiles\directory.csv', encoding='utf-8')
+
+  data =ReadCsv("directory.csv").readCsv()
   grouped = data.groupby('Country').size()  # series 类型，国家星巴克数量
 
   # 创建关于国家名字数组

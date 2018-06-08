@@ -10,6 +10,9 @@ import random
 
 
 # 随机颜色
+from Configuration.ReadCsv import ReadCsv
+
+
 def randomColor():
     r = str(random.choice(range(0, 256)))
     g = str(random.choice(range(0, 256)))
@@ -18,36 +21,20 @@ def randomColor():
     return rgb
 
 
-def MapTwo():
+def timeZoneDistribution():
     # 读取文件
-    myFile = pd.read_csv('F:\pythonFiles\directory.csv')
-    # 数据清洗-处理缺省值
-    myFile = myFile.fillna("None")
 
-    # 读取文件各项数据
-    storeNum = myFile["Store Number"]
-    storeName = myFile["Store Name"]
-    Type = myFile["Ownership Type"]
-    streetAddress = myFile["Street Address"]
-    city = myFile["City"]
-    state = myFile["State/Province"]
-    country = myFile["Country"]
-    postCode = myFile["Postcode"]
-    phoneNumber = myFile["Phone Number"]
-    timeZone = myFile["Timezone"]
-
+    file = ReadCsv("directory.csv")
+    myFile=file.readCsv()
+    lat, lon, StoreNumber, StoreName, address, postcode, PhoneNumber = file.getCsvData()
+    timeZone=myFile["Timezone"]
     # 显示文本
     myText = (
-        "StoreNum: " + storeNum + '</br>' +
-        "StoreName: " + storeName + '</br>' +
-        "OwnershipType: " + Type + '</br>' +
-        "StreetAddress: " + streetAddress + '</br>' +
-        "City: " + city + '</br>' +
-        "State: " + state + '</br>' +
-        "Country: " + country + '</br>' +
-        "Postcode: " + postCode + '</br>' +
-        "phoneNumber: " + phoneNumber + '</br>' +
-        "TimeZone: " + timeZone
+        "StoreNum: " + StoreNumber + '</br>' +
+        "StoreName: " + StoreName + '</br>' +
+        "StreetAddress: " + address + '</br>' +
+        "Postcode: " + postcode + '</br>' +
+        "phoneNumber: " + PhoneNumber + '</br>'
     )
     # 添加数据到源文件
     myFile['Text'] = myText
@@ -87,5 +74,5 @@ def MapTwo():
     )
 
     fig = dict(data=data, layout=layout)
-    py.offline.plot(fig, validate=False, filename='map2.html')
+    py.offline.plot(fig, validate=False, filename='timeZoneDistribution.html')
 

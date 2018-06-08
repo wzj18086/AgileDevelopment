@@ -5,15 +5,13 @@ from plotly import *
 import plotly.graph_objs as go
 import plotly.offline as off
 from pandas import Series,DataFrame
+
+from Configuration.ReadCsv import ReadCsv
+
+
 def topKSearch(latitude,longitude,k):
-    file=pd.read_csv("directory.csv")
-    lon=file["Longitude"]#经度
-    lat=file["Latitude"]#纬度
-    StoreNumber=file['Store Number'].fillna('unknown')
-    StoreName=file['Store Name'].fillna('unknown')
-    address=file['Street Address'].fillna('unknown')
-    postcode=file['Postcode'].fillna('unknown')
-    PhoneNumber=file['Phone Number'].fillna('unknown')
+    file = ReadCsv("directory.csv")
+    lat, lon, StoreNumber, StoreName, address, postcode, PhoneNumber = file.getCsvData()
     #初始半径
     x_r=5
     y_r=5
@@ -42,17 +40,6 @@ def topKSearch(latitude,longitude,k):
         c = 2 * asin(sqrt(a))
         r = 6371  # 地球平均半径，单位为公里
         return c * r * 1000
-    #处理求距离特殊情况
-    def solve(x):
-        if x[0]*test_x<0 and x[1]*test_y>0 and abs(test_x-x[0])>(360-abs(x[0])-abs(test_x)):
-            return (360-abs(x[0])-abs(test_x))*(360-abs(x[0])-abs(test_x))+(x[1]-test_y)*(x[1]-test_y)
-        '''   
-        elif x[1]*test_y<0 and x[0]*test_x>0:
-            return (x[1]-test_y)*(x[1]-test_y)+(x[0]-test_x)*(x[0]-test_x)
-        elif x[0]*test_x<0 and x[1]*test_y<0:
-            return (x[1]-test_y)*(x[1]-test_y)+(360-abs(x[0])-abs(test_x))*(360-abs(x[0])-abs(test_x))
-         '''
-        return (x[0]-test_x)*(x[0]-test_x)+(x[1]-test_y)*(x[1]-test_y)
     #处理筛选特殊情况
     def sovle_filter(x):
         if test_x+x[-2]>180:

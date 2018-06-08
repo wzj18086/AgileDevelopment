@@ -11,10 +11,12 @@ from plotly.graph_objs import *
 from plotly import figure_factory as FF
 import csv
 
+from Configuration.ReadCsv import ReadCsv
 
-def Map2_1():
+
+def countStatistics():
     # 读取数据文件
-    myFile = pd.read_csv('directory.csv')
+    myFile =ReadCsv("directory.csv").readCsv()
     # 清洗数据-处理缺省值
     myFile = myFile.fillna("None")
     timeZone = myFile["Timezone"]
@@ -37,7 +39,7 @@ def Map2_1():
         writer.writerow(["Timezone", "Amount", "Rate"])
         for x in range(length):
             writer.writerow([timeZoneSort[x], valuesList[x], rateText[x]])
-    file = pd.read_csv("timeZone.csv")
+    file = ReadCsv("timeZone.csv").readCsv()
     table = FF.create_table(file)
-    py.offline.plot(table, filename='map2-1.html')
+    py.offline.plot(table, filename='countStatistics.html')
 

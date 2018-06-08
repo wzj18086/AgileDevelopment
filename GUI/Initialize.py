@@ -3,7 +3,7 @@ from tkinter import *
 from KMap.ShowKMap import showKMap
 from KeyWordMap.ShowKeyWordMap import showKeyWordMap
 from OtherGraphic.ColorChange import colorChange
-from OtherGraphic.CountStatistics import Map2_1
+from OtherGraphic.CountStatistics import countStatistics
 from OtherGraphic.DistrictAmount import Map3
 from OtherGraphic.KChange import kChange
 from OtherGraphic.TimeZoneDistribution import *
@@ -12,8 +12,8 @@ from RadiusMap.ShowRadiusMap import radiusSearch, radiusTimeChange
 class  initialize():
     top=Tk()
     button=Button(top,text="店铺分布情况",command=showKMap)
-    button1=Button(top,text="时区店铺分布",command=MapTwo)
-    button5=Button(top,text="统计",command=Map2_1)
+    button1=Button(top,text="时区店铺分布",command=timeZoneDistribution)
+    button5=Button(top,text="统计",command=countStatistics)
     button2 = Button(top, text="区域店铺数量",command=Map3)
     latidude = Label(text='纬度：')
     enter_latidtude= Entry(top)
