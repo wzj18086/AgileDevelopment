@@ -3,8 +3,8 @@ import types
 
 class MapSettingStrategy:
     def __init__(self, func=None):
-        self.func=func
+        self.func = func
 
     def execute(self):
-        data,layout=self.func
-        return data,layout
+        data, layout = self.func
+        return data, layout

@@ -15,10 +15,10 @@ class ReadCsv(Singleton):
         df = ReadCsv.readCsv(self)
         lat = df['Latitude']
         lon = df['Longitude']
-        StoreNumber = df['Store Number'].fillna('unknown')
-        StoreName = df['Store Name'].fillna('unknown')
+        store_number = df['Store Number'].fillna('unknown')
+        store_name = df['Store Name'].fillna('unknown')
         address = df['Street Address'].fillna('unknown')
         postcode = df['Postcode'].fillna('unknown')
-        PhoneNumber = df['Phone Number'].fillna('unknown')
-        return lat, lon, StoreNumber, StoreName, address, postcode, PhoneNumber
+        phone_number = df['Phone Number'].fillna('unknown')
+        return lat, lon, store_number, store_name, address, postcode, phone_number
 

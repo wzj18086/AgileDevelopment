@@ -25,6 +25,7 @@ def topKSearch(latitude, longitude, k):
     input_y = longitude
     input_k = k
 
+
     def haveRSine(x):  # 经度1，纬度1，经度2，纬度2 （十进制度数）
         # 将十进制度数转化为弧度
         lon1, lat1, lon2, lat2 = map(radians, [x[0], x[1], input_x, input_y])
@@ -50,34 +51,29 @@ def topKSearch(latitude, longitude, k):
     # 按照距离筛选数据
     temp_list = result_list
 
-    def filter(x1, y1):
+    def new_filter(x1, y1):
         for x in temp_list:
             x[-2] = x1
             x[-1] = y1
         data = list(filter(sovleFilter, temp_list))
         return data
 
-    result = []
+    result = []     #存储所有符合条件的店铺信息
 
     # 根据搜索到的数量逐步扩大半径
     start = time.clock()
     while result.__len__() < input_k:
-        result = filter(initial_x, initial_y)
+        result = new_filter(initial_x, initial_y)
         # 增大半径
         initial_x += 5
         initial_y += 5
 
     final_result = sorted(result, key=haveRSine)[:input_k]  # 取最近的前k项为最终结果
-    lat_result = []
-    lon_result = []
-    datas = []
+    lat_result = []         #存储符合要求的纬度信息
+    lon_result = []         #存储符合要求的经度信息
 
     for x in final_result:
         lon_result.append(x[0])
         lat_result.append(x[1])
-        data = 'store_number:' + x[2] + '</br>' + 'store_name:' + x[3] + '</br>' + 'Postcode:' + x[
-            4] + '</br>' + 'phone_number:' + x[5] + '</br>' + 'Address:' + x[6]
-        datas.append(data)
-
     end = time.clock()
     return lon_result, lat_result, final_result, end - start

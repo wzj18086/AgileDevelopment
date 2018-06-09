@@ -25,8 +25,8 @@ def barCharts(name):
                }
     data_g = []
     tr_y1 = go.Bar(
-        x=dataset['x'],
-        y=dataset['y1'],
+        x=data_set['x'],
+        y=data_set['y1'],
 
     )
     data_g.append(tr_y1)

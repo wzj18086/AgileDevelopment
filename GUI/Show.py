@@ -17,9 +17,9 @@ def show():
 
     x.button2.place(x=150, y=100)
 
-    x.latidude.place(x=50, y=150)
+    x.latitude.place(x=50, y=150)
 
-    x.enter_latidtude.place(x=100, y=150)
+    x.enter_latitude.place(x=100, y=150)
 
     x.longitude.place(x=50, y=180)
 

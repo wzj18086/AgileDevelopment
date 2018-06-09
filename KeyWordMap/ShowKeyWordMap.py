@@ -1,5 +1,4 @@
 from Configuration.SetMapData import setMapData
-from GUI import *
 from GUI import Initialize
 from KeyWordMap.KeyWordSort import keywordSort
 import plotly.graph_objs
@@ -8,7 +7,7 @@ import plotly.offline
 
 def keyWordSelect():
     x = Initialize.initialize()
-    lats = int(x.enter_latidtude.get())
+    lats = int(x.enter_latitude.get())
     lons = int(x.enter_longitude.get())
     ks = int(x.k_value.get())
     key_word = x.key_word_enter.get()

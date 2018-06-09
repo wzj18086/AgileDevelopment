@@ -3,11 +3,10 @@ from tkinter import messagebox
 import plotly.graph_objs
 import plotly.offline
 
-from Configuration import ReadCsv
+from Configuration.ReadCsv import ReadCsv
 from Configuration.SetMapData import setMapData
 from GUI import Initialize
 
-from OtherGraphic.ProgressBarShow import progressBarShow
 from KMap.TopKSearch import *
 
 
@@ -30,8 +29,8 @@ def solveKMapData():
 
 def setKMap(lat_result, lon_result):
     x = Initialize.initialize()
-    lats = (int)(x.enter_latidtude.get())
-    lons = (int)(x.enter_longitude.get())
+    lats = int(x.enter_latitude.get())
+    lons = int(x.enter_longitude.get())
     lat, lon, datas = solveKMapData()
     data, layout = setMapData(lat_result, lon_result, lats, lons, datas)
     return data, layout
@@ -39,15 +38,17 @@ def setKMap(lat_result, lon_result):
 
 def showKMap():
     x = Initialize.initialize()
-    lats = int(x.enter_latidtude.get())
+    lats = int(x.enter_latitude.get())
     lons = int(x.enter_longitude.get())
     ks = int(x.k_value.get())
     if (lats > 180) or (lats < -180) or (lons < -180) or lons > 180:
         messagebox.askyesno("error", "经纬度不合法")
         return
-    if ks >= 2000:
-        progressBarShow()
+
     lon_result, lat_result, final_result, time = topKSearch(lats, lons, ks)
+
     data, layout = setKMap(lat_result, lon_result)
     fig = dict(data=data, layout=layout)
+
+    import plotly.offline
     plotly.offline.plot(fig, filename='result.html')

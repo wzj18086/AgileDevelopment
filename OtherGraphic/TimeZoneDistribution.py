@@ -8,6 +8,7 @@ import random
 
 # 随机颜色
 from Configuration.ReadCsv import ReadCsv
+from Configuration.SetMapData import setLoopData, setLoopDataLayout
 
 
 def randomColor():
@@ -22,53 +23,32 @@ def timeZoneDistribution():
     # 读取文件
 
     file = ReadCsv("directory.csv")
-    myFile=file.readCsv()
-    lat, lon, StoreNumber, StoreName, address, postcode, PhoneNumber = file.getCsvData()
-    timeZone=myFile["Timezone"]
+    my_file=file.readCsv()
+    lat, lon, store_number, store_name, address, postcode, phone_number = file.getCsvData()
+    time_zone=my_file["Timezone"]
     # 显示文本
-    myText = (
-        "StoreNum: " + StoreNumber + '</br>' +
-        "StoreName: " + StoreName + '</br>' +
+    my_text = (
+        "StoreNum: " + store_number + '</br>' +
+        "store_name: " + store_name + '</br>' +
         "StreetAddress: " + address + '</br>' +
         "Postcode: " + postcode + '</br>' +
-        "phoneNumber: " + PhoneNumber + '</br>'
+        "phone_number: " + phone_number + '</br>'
     )
     # 添加数据到源文件
-    myFile['Text'] = myText
+    my_file['Text'] = my_text
     # 处理重复数据
-    timeZoneSet = set(timeZone)
+    time_zone_set = set(time_zone)
     # 根据 TimeZone 重新排列文件
-    groupByTimeZone = myFile.groupby(timeZone)
+    group_by_time_zone = my_file.groupby(time_zone)
 
     # 存放Scattermapbox
     messages = []
-    for subTimeZone in timeZoneSet:
-        newTimeZoneGroup = groupByTimeZone.get_group(subTimeZone)
-        messages.append(Scattermapbox(
-            lat=newTimeZoneGroup["Latitude"],
-            lon=newTimeZoneGroup["Longitude"],
-            mode='markers',
-            marker=Marker(
-                size=10,
-                color=randomColor()
-            ),
-            name=subTimeZone,
-            text=newTimeZoneGroup['Text'],
-        )
-        )
+    for sub_time_zone in time_zone_set:
+        new_time_zone_group = group_by_time_zone.get_group(sub_time_zone)
+        data_temp=setLoopData(new_time_zone_group,sub_time_zone,randomColor())
+        messages.append(data_temp)
     data = Data(messages)
-
-    layout = Layout(
-        autosize=True,
-        hovermode='closest',
-        title="Timezone Distribution Map",
-        mapbox=dict(
-            accesstoken="pk.eyJ1IjoibW9oYWlsYW5nIiwiYSI6ImNqZm93cGs5bDF3OXMyeG1zdGhuejBoNTIifQ.fouiU5hKtls0ohPA7LHJEA",
-            bearing=0,
-            pitch=0,
-            zoom=1
-        ),
-    )
+    layout = setLoopDataLayout(title="Timezone Distribution Map")
 
     fig = dict(data=data, layout=layout)
     py.offline.plot(fig, validate=False, filename='timeZoneDistribution.html')
