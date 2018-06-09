@@ -1,7 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-# @Date    : 2018-04-07 22:24:43
-# @Author  : mohailang (1198534595@qq.com)
+
 
 import pickle
 import plotly as py
@@ -9,8 +6,7 @@ import pandas as pd
 
 
 
-
-def Map3():
+def districtAmount():
     # 把两位国家代码转换成三位代码
     with open("CountryTwoLettersToThree.pickle", "rb") as file:
         threeCountryCode = pickle.load(file)

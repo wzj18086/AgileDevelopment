@@ -1,7 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-# @Date    : 2018-04-08 09:03:48
-# @Author  : mohailang (1198534595@qq.com)
+
 
 import plotly as py
 import pandas as pd

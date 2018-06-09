@@ -7,7 +7,7 @@ import pandas as pd
 from Configuration.ReadCsv import ReadCsv
 
 
-def RadiusTimeChange(la,lo):
+def radiusTimeChange(la,lo):
 # 按照距离筛选数据
     def shaixuan(la, lo, r, result_list):
         temp_list = []
@@ -40,9 +40,9 @@ def RadiusTimeChange(la,lo):
 
 
     file = ReadCsv("directory.csv")
-    lat, lon, StoreNumber, StoreName, address, postcode, PhoneNumber = file.getCsvData()
+    lat, lon, store_number, store_name, address, postcode, phone_number = file.getCsvData()
 
-    result_list=[[a,b,c,d,e,f,g] for a,b,c,d,e,f,g in zip(lat,lon,StoreNumber,StoreName,address,postcode,PhoneNumber)]
+    result_list=[[a,b,c,d,e,f,g] for a,b,c,d,e,f,g in zip(lat,lon,store_number,store_name,address,postcode,phone_number)]
 
 
     rlist = [1,20,100,500,2000,10000,40076]

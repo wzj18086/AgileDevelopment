@@ -8,7 +8,7 @@ from Configuration.ReadCsv import ReadCsv
 from Configuration.SetMapData import *
 
 
-def RadiusSearch(la,lo,r):
+def radiusSearch(la,lo,r):
         #按照距离筛选数据
     def shaixuan(la,lo,r,result_list):
         temp_list = []

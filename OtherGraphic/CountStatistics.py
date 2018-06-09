@@ -16,29 +16,29 @@ from Configuration.ReadCsv import ReadCsv
 
 def countStatistics():
     # 读取数据文件
-    myFile =ReadCsv("directory.csv").readCsv()
+    my_file =ReadCsv("directory.csv").readCsv()
     # 清洗数据-处理缺省值
-    myFile = myFile.fillna("None")
-    timeZone = myFile["Timezone"]
+    my_file = my_file.fillna("None")
+    timeZone = my_file["Timezone"]
     # 处理重复数据并排序
     timeZoneSort = sorted(set(timeZone))
     # 根据 TImeZone 重新排列
-    groupByTimeZone = myFile.groupby(timeZone)
+    group_by_time_zone = my_file.groupby(timeZone)
     # 计算相同时区出现的次数
-    timeZone_count = dict(groupByTimeZone["Timezone"].value_counts())
+    time_zone_count = dict(group_by_time_zone["Timezone"].value_counts())
     # 计算星巴克的总数
-    storeSum = sum(timeZone_count.values())
+    store_sum = sum(time_zone_count.values())
     # 每个时区的星巴克的比例
-    rateText = [(value / storeSum) for value in timeZone_count.values()]
+    rate_text = [(value / store_sum) for value in time_zone_count.values()]
 
     length = len(timeZoneSort)
-    valuesList = list(timeZone_count.values())
+    values_list = list(time_zone_count.values())
     # 把时区的相关信息写入文件
     with open("timeZone.csv", "w") as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(["Timezone", "Amount", "Rate"])
         for x in range(length):
-            writer.writerow([timeZoneSort[x], valuesList[x], rateText[x]])
+            writer.writerow([timeZoneSort[x], values_list[x], rate_text[x]])
     file = ReadCsv("timeZone.csv").readCsv()
     table = FF.create_table(file)
     py.offline.plot(table, filename='countStatistics.html')

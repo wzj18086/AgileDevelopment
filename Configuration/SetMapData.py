@@ -28,3 +28,27 @@ def setMapData(lat_result,lon_result,lats,lons,datas):
             ),
     )
     return data,layout
+
+def setMapData2(country_list,values,color_scale):
+    data = [
+        dict(
+            type='choropleth',
+            colorscale=color_scale,
+            reversescale=True,
+            autocolorscale=False,
+            locations=country_list,
+            locationmode="ISO-3",
+            z=values,
+        )
+    ]
+    layout = Layout(
+        title="CountryMap",
+        autosize=True,
+        hovermode='closest',
+        mapbox=dict(
+            accesstoken='pk.eyJ1Ijoid3pqMTgwODYiLCJhIjoiY2pmMHM2dmRoMDFsZjJ4dDdiaHZwMmpqayJ9.yBaHqF4D6JKBVe_kvTWAhw',
+            bearing=0,
+            pitch=0,
+            zoom=1
+        )
+    )

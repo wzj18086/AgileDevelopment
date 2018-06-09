@@ -6,12 +6,17 @@ import random
 import pickle
 import os
 
+from Configuration.MapSettingStrategy import MapSettingStrategy
+from Configuration.ReadCsv import ReadCsv
+from Configuration.SetMapData import setMapData2
+
 mapbox_access_token = "pk.eyJ1IjoibW9oYWlsYW5nIiwiYSI6ImNqZm93cGs5bDF3OXMyeG1zdGhuejBoNTIifQ.fouiU5hKtls0ohPA7LHJEA"
 
 # 生成随机颜色
 def colorChange():
-    df = pd.read_csv("directory.csv")
-    draw_timezone_map(df, "draw")
+    file = ReadCsv("directory.csv")
+    df = file.readCsv()
+    drawTimezoneMap(df, "draw")
 
 def randomColor():
     r = random.randint(0, 256)
@@ -63,7 +68,7 @@ def drawGroupBy(df, attr, filename):
 # 按照经纬度绘制世界地图
 
 
-def draw_log_lat(df, attr, filename):
+def drawLogLat(df, attr, filename):
     df['text'] = "Store Number: " + df['Store Number'] + '</br>' + "Store Name: " + df['Store Name'] + '</br>' + "Address: " + \
         df['Street Address'] + '</br>' + "Postcode: " + df['Postcode'] + \
         '</br>' + "Phone Number: " + df['Phone Number']
@@ -105,46 +110,27 @@ def draw_log_lat(df, attr, filename):
 # 绘制国家密度图
 
 
-def draw_country_map(df, filename="CountryMap"):
+def drawCountryMap(df, filename="CountryMap"):
     # 映射表
     with open('CountryTwoLettersToThree.pickle', 'rb') as f:
-        changeCountryCode = pickle.load(f)
+        change_country_code = pickle.load(f)
     # 国家数量
     country_count = dict(df['Country'].value_counts())
     values = [country_count[key] for key in country_count]
-    country_list = [changeCountryCode[key] for key in country_count]
-    data = [
-        dict(
-            type='choropleth',
-            colorscale=[[0, "rgb(5, 10, 172)"],
+    country_list = [change_country_code[key] for key in country_count]
+    color_scale=[[0, "rgb(5, 10, 172)"],
                         [0.45, "rgb(40, 60, 190)"],
                         [0.85, "rgb(70, 100, 245)"],
                         [0.90, "rgb(90, 120, 245)"],
                         [0.95, "rgb(106, 137, 247)"],
-                        [1, "rgb(220, 220, 220)"]],
-            reversescale=True,
-            autocolorscale=False,
-            locations=country_list,
-            locationmode="ISO-3",
-            z=values,
-        )
-    ]
-    layout = Layout(
-        title="CountryMap",
-        autosize=True,
-        hovermode='closest',
-        mapbox=dict(
-            accesstoken=mapbox_access_token,
-            bearing=0,
-            pitch=0,
-            zoom=1
-        )
-    )
+                        [1, "rgb(220, 220, 220)"]]
+    map_set=MapSettingStrategy(setMapData2(country_list=country_list,values=values,color_scale=color_scale))
+    data,layout=map_set.execute()
     fig = dict(data=data, layout=layout)
     offline.plot(fig, validate=False, filename=str(filename) + '.html')
 
 
-def draw_timezone_map(df, filename="timezone_shadow"):
+def drawTimezoneMap(df, filename="timezone_shadow"):
     # 缺失值处理
     df = df.fillna('Null')
     df['text'] = "Store Number: " + df['Store Number'] + '</br></br>' + "Store Name: " + df[

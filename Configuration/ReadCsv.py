@@ -12,7 +12,7 @@ class ReadCsv(Singleton):
         return df_temp
 
     def getCsvData(self):
-        df=ReadCsv.readCsv(self)
+        df = ReadCsv.readCsv(self)
         lat = df['Latitude']
         lon = df['Longitude']
         StoreNumber = df['Store Number'].fillna('unknown')
@@ -20,5 +20,5 @@ class ReadCsv(Singleton):
         address = df['Street Address'].fillna('unknown')
         postcode = df['Postcode'].fillna('unknown')
         PhoneNumber = df['Phone Number'].fillna('unknown')
-        return lat,lon,StoreNumber,StoreName,address,postcode,PhoneNumber
+        return lat, lon, StoreNumber, StoreName, address, postcode, PhoneNumber
 
