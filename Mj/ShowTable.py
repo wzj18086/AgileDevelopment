@@ -7,41 +7,47 @@ import pandas as pd
 import os
 import json
 
-def getItem(save_log,mytable):
-    k = 0
-    for i in save_log:
-        k = k + 1
+def getItem(save_log,txt,num,n,grade):
 
-        if(mytable.item(k, 4) != None):
-            if(mytable.item(k,1)!= None):
-                save_log[i]['Grade'] = mytable.item(k,4).text()
-            else:
-                grade = mytable.item(k, 4).text()
-                old = mytable.item(k,1).text()
-                n = mytable .item(k,2).text()
-                save_log[i]['Grade'] = avg(grade,old,n)
+    #for i in gradeList:
+        for k in save_log:
+            if num == save_log[k]['Store Number']:
+                if (save_log[k]['Grade']==''and txt!=""):
+                    temp = txt
+                    save_log[k]['Grade'] = round(float(temp), 2)
+                    save_log[k]['N']=save_log[k]['N']+1
 
-            save_log[i]['N'] = save_log[i]['N']+1
 
-        if(save_log[i]['Grade']!='' and float(save_log[i]['Grade']) >= 8):
-            save_log[i]['Special'] = True
-    return save_log
+                elif (save_log[k]['Grade']!=''and txt!=""):
+                    temp =avg(float(txt),float(grade),float(n))
+                    save_log[k]['Grade'] = round(float(temp), 2)
+                    save_log[k]['N']=save_log[k]['N']+1
+
+
+                if(save_log[k]['Grade']!=''):
+                    a = str(save_log[k]['Grade'])
+                    if float(a) >= 8:
+                        save_log[k]['Special'] = True
+                    else:
+                        save_log[k]['Special'] = False
+
+        return save_log
 
 def avg(grade,old,n):
-    ave = ((int(old))* int(n)+ int(grade))/(int(n)+1)
+    ave = (old* n+ grade)/(n+1)
     return ave
-
 
 def grade_save(save_log):
     """将评分记录写入文件中保存下来"""
     try:
         jsobj = json.dumps(save_log)
-        fileobj = open("starbucks.json","w")
+        fileobj = open("starbucks.json", "w")
         fileobj.write(jsobj)
         print("Change Success!")
         fileobj.close()
     except:
         print("Change Error!")
+
 
 def grade_read(file):
     """读取评分记录的文件，如果没有则生成"""
@@ -51,7 +57,7 @@ def grade_read(file):
             index = str(index)
             save_log[index] = {}
             save_log[index]["Store Name"] = file["Store Name"]
-            # save_log[index]["Latitude"] = starbuck["Latitude"]
+            save_log[index]["Store Number"] = file["Store Number"]
             # save_log[index]["Longitude"] = starbuck["Longitude"]
             save_log[index]["Grade"] = ""
             save_log[index]["N"] = 0
@@ -71,58 +77,42 @@ def grade_read(file):
     print(save_log)
     return save_log
 
-#def
-#按照距离筛选数据
-def shaixuan(la,lo,r,result_list):
-    temp_list = []
-    for x in result_list:
-        if haversine(lo,la,float(x[1]),float(x[0]))<=1000*r:
-            temp_list.append(x)
-    return temp_list
-
-#计算两经纬度点之间的距离
-def haversine(lon1, lat1, lon2, lat2):  # 经度1，纬度1，经度2，纬度2 （十进制度数）
-    """
-    Calculate the great circle distance between two points
-    on the earth (specified in decimal degrees)
-    """
-    # 将十进制度数转化为弧度
-    lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
-
-    # haversine公式
-    dlon = lon2 - lon1
-    dlat = lat2 - lat1
-    a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
-    c = 2 * asin(sqrt(a))
-    r = 6371  # 地球平均半径，单位为公里
-    return c * r * 1000
 
 def search(resultList,save_log):
     gradeList = []
     for i in resultList:
         for j in save_log:
-            if(i[3] == save_log[j]['Store Name']):
+            if(i[2] == save_log[j]['Store Number']):
                 gradeList.append(save_log[j])
 
     return gradeList
 
-file = pd.read_csv("directory.csv",encoding='utf-8')
-resultList = Map1.show()
+if __name__ == '__main__':
+    #读取文件
+    file = pd.read_csv("directory.csv",encoding='utf-8')
 
-app = QApplication(sys.argv)
+    #展示地图、获取得到的结果List
+    resultList = Map1.show()
 
-save_log = grade_read(file)
+    app = QApplication(sys.argv)
 
-gradeList = search(resultList,save_log)
-print(gradeList)
+    #读取所有信息并存储到json中
+    save_log = grade_read(file)
 
-mytable = what.MyTable(gradeList)
-mytable.show()
+    #获取到显示在表格上的List
+    gradeList = search(resultList,save_log)
+    print(gradeList)
+
+    mytable = what.MyTable(gradeList,save_log)
+    mytable.show()
+    #p_log = getItem(save_log, mytable, gradeList)
+    app.exit(app.exec_())
+    #获取表格中的数据用以修改save_log中的数据
 
 
-
-app.exit(app.exec_())
-save_log = getItem(save_log,mytable)
-grade_save(save_log)
+    #把save_log的数据放入json中保存
+    #grade_save(save_log)
+    #gradeList = search(resultList,save_log)
+    #print(gradeList)
 
 
