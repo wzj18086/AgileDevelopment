@@ -105,8 +105,8 @@ def show():
         ),
     )
 
-    fig = dict(data=data, layout=layout)
-    py.plot(fig, filename='Multiple Mapbox')
+    #fig = dict(data=data, layout=layout)
+    #py.plot(fig, filename='Multiple Mapbox')
     return final_list
 
 
