@@ -2,7 +2,7 @@
 from tkinter import *  
 import time  
   
-def ProgressBarShow():
+def progressBarShow():
     #更新进度条函数
     def change_schedule(now_schedule,all_schedule):
         canvas.coords(fill_rec, (5, 5, 6 + (now_schedule/all_schedule)*100, 25))

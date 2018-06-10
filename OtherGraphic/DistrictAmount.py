@@ -1,24 +1,23 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-# @Date    : 2018-04-07 22:24:43
-# @Author  : mohailang (1198534595@qq.com)
+
 
 import pickle
 import plotly as py
 import pandas as pd
 
 
-def Map3():
+
+def districtAmount():
     # 把两位国家代码转换成三位代码
-    with open("countryTwoLettersToThree.pickle", "rb") as file:
-        threeCountryCode = pickle.load(file)
-    myFile = pd.read_csv('F:\pythonFiles\directory.csv')
+    with open("CountryTwoLettersToThree.pickle", "rb") as file:
+        three_country_code = pickle.load(file)
+    from Configuration.ReadCsv import ReadCsv
+    my_file = ReadCsv('directory.csv').readCsv()
     # 计算相同国家的次数
-    country_count = dict(myFile["Country"].value_counts())
+    country_count = dict(my_file["Country"].value_counts())
     # 存放每个国家的星巴克数量
-    countryNum = [country_count[key] for key in country_count]
+    country_num = [country_count[key] for key in country_count]
     # 转换国家代码
-    countryOfThreeLettersList = [threeCountryCode[key] for key in country_count]
+    country_of_three_lettters_list = [three_country_code[key] for key in country_count]
 
     data = [dict(
         type='choropleth',
@@ -26,10 +25,10 @@ def Map3():
                     [0.3, "rgb(255，80，80)"],
                     [0.35, "rgb(255, 160，160) "],
                     [1, "rgb(255, 0，0) "]],
-        z=countryNum,
+        z=country_num,
         reversescale=False,
         autocolorscale=False,
-        locations=countryOfThreeLettersList,
+        locations=country_of_three_lettters_list,
         locationmode="ISO-3",
         colorbar=dict(
             autotick=False,
@@ -50,8 +49,5 @@ def Map3():
     )
 
     fig = dict(data=data, layout=layout)
-    py.offline.plot(fig, validate=False, filename='map3.html')
+    py.offline.plot(fig, validate=False, filename='distrinctAmount.html')
 
-
-if __name__ == '__main__':
-    Map3()
